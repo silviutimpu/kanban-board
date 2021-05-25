@@ -87,7 +87,7 @@ ul {
   background-color: var(--column-4);
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar css tricks*/
 .custom-scroll {
   overflow-y: auto;
   max-height: 52vh;

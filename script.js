@@ -58,22 +58,26 @@ function updateSavedColumns() {
 // Filter Array to remove empty itms
 function filterArray(array) {
   const filteredArray = array.filter(item => item !== null);
-  return filteredArray;
+  const filteredArray2 = filteredArray.filter(item => item !== "");
+  return filteredArray2;
 }
 
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
   // List Item
   const listEl = document.createElement('li');
-  listEl.textContent = item;
-  listEl.id = index;
-  listEl.classList.add('drag-item');
-  listEl.draggable = true;
-  listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
-  listEl.setAttribute('ondragstart', 'drag(event)');
-  listEl.contentEditable = true;
-  // Append
-  columnEl.appendChild(listEl);
+  if(item !== ""){
+    listEl.textContent = item;
+    listEl.id = index;
+    listEl.classList.add('drag-item');
+    listEl.draggable = true;
+    listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
+    listEl.setAttribute('ondragstart', 'drag(event)');
+    listEl.contentEditable = true;
+    // Append
+    columnEl.appendChild(listEl);
+  }
+  
 }
 
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
@@ -178,6 +182,7 @@ function dragEnter(column) {
 
 // When item starts dragging
 function drag(e) {
+  console.log(e);
   draggedItem = e.target;
   dragging = true;
 }
@@ -191,12 +196,13 @@ function allowDrop(e) {
 // Dropping item 
 function drop(e) {
   e.preventDefault();
-  const parent = listColumns[currentColumn];
+  
   // Remove background color
   listColumns.forEach((column) => {
     column.classList.remove('over');
   });
   // Add item to Column
+  const parent = listColumns[currentColumn];
   parent.appendChild(draggedItem);
   // Dragging complete
   dragging = false;
